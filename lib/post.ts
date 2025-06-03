@@ -1,3 +1,4 @@
+// lib/post.ts
 import clientPromise from './db';
 
 export async function getAllPosts() {
@@ -8,6 +9,24 @@ export async function getAllPosts() {
   return posts.map((post) => ({
     title: post.title,
     slug: post.slug,
-    date: post.date,
+    date: post.date || null,
+    author: post.author || null,
+    content: post.content || '',
   }));
+}
+
+export async function getPostBySlug(slug: string) {
+  const client = await clientPromise;
+  const db = client.db();
+  const post = await db.collection('posts').findOne({ slug });
+
+  if (!post) return null;
+
+  return {
+    title: post.title,
+    slug: post.slug,
+    date: post.date || null,
+    author: post.author || null,
+    content: post.content || '',
+  };
 }
