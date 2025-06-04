@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import router from 'next/router';
 import React, { useState } from 'react';
 import { FiArrowLeft } from "react-icons/fi";
-
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
@@ -13,16 +13,37 @@ export default function SignIn() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // simulate login
-        setTimeout(() => {
-            alert(`Signed in with ${email} / ${password}`);
+
+        try {
+            const res = await fetch('/api/sign-in', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                alert(data.message || 'Login failed');
+                console.log("NOT OK")
+            } else {
+                alert('Login successful!');
+                // Optionally: redirect to dashboard or homepage
+                console.log("OK")
+
+            }
+        } catch (error) {
+            alert('An error occurred. Please try again.');
+            console.error(error);
+        } finally {
             setLoading(false);
-        }, 1500);
+        }
     };
 
     return (
         <div className="relative flex min-h-screen items-center justify-center px-4 bg-slate-900">
-            {/* Back arrow at top-left corner */}
             <div className="absolute top-4 left-4 flex items-center space-x-1 cursor-pointer text-lime-400 hover:text-lime-600">
                 <Link href="/" className="flex items-center space-x-1">
                     <FiArrowLeft size={20} />
@@ -30,7 +51,6 @@ export default function SignIn() {
                 </Link>
             </div>
 
-            {/* Main form */}
             <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-800 p-8 shadow-lg">
                 <h1 className="text-2xl font-bold text-center text-gray-100">Sign in</h1>
                 <p className="text-sm text-center text-gray-300">Welcome user, please sign in to continue</p>
@@ -106,7 +126,6 @@ export default function SignIn() {
                             ?
                         </p>
                     </div>
-
                 </form>
             </div>
         </div>
