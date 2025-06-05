@@ -65,7 +65,7 @@ export default async function Posts() {
               >
                 <Link href={`/blog/${post.slug}`} className="block overflow-hidden">
                   <img
-                    src={post.image}
+                   src={post.coverImage ? post.coverImage : null}
                     alt={post.title}
                     className="
                     w-full 
@@ -85,9 +85,9 @@ export default async function Posts() {
                       {post.title}
                     </h3>
                   </Link>
-                  {post.content && (
+                  {post.description && (
                     <p className="text-gray-900 dark:text-gray-300 text-base line-clamp-3 flex-grow">
-                      {stripMarkdown(post.content)}
+                      {stripMarkdown(post.description)}
                     </p>
                   )}
                   <div className="flex justify-between items-center mt-auto">

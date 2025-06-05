@@ -2,11 +2,13 @@ import clientPromise from '@/lib/db';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-  const { title, slug, content } = await req.json();
+  const { title, slug, description, coverImage, content } = await req.json();
 
   const newPost = {
     title,
     slug,
+    description: description || '',
+    coverImage: coverImage || '',
     content,
     date: new Date().toISOString(),
   };

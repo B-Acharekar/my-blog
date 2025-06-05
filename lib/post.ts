@@ -12,7 +12,8 @@ export async function getAllPosts() {
     date: post.date || null,
     author: post.author || null,
     content: post.content || '',
-    image: post.image || null,
+    coverImage: post.coverImage || '',  // ✅ add this
+    description: post.description || '', // ✅ optional but good
   }));
 }
 
@@ -29,5 +30,7 @@ export async function getPostBySlug(slug: string) {
     date: post.date || null,
     author: post.author || null,
     content: post.content || '',
+    coverImage: post.coverImage || '',  // ✅ add this
+    description: post.description || '',
   };
 }
