@@ -8,10 +8,10 @@ const HeroSection = () => {
       <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-10 items-center">
         {/* Left Text Section */}
         <div className="space-y-6 text-center lg:text-left">
-          <h1 className="text-4xl sm:text-5xl font-bold leading-tight text-white">
+          <h1 className="text-4xl sm:text-5xl font-bold leading-tight text-gray-900 dark:text-white">
             Learn development<br />with great articles.
           </h1>
-          <p className="text-lg text-gray-300 max-w-md mx-auto lg:mx-0">
+          <p className="text-lg text-gray-700 dark:text-gray-300 max-w-md mx-auto lg:mx-0">
             Find the latest of my writing here.
           </p>
           <form className="relative w-full max-w-xl" role='search'>

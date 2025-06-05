@@ -9,9 +9,9 @@ export default async function HomePage() {
     <>
       <Header>
       </Header>
-      <HeroSection/>
-      <main className="max-w-3xl mx-auto p-6">
-        <Posts/>
+      <HeroSection />
+      <main>
+        <Posts />
       </main>
     </>
   );

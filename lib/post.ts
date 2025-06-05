@@ -12,6 +12,7 @@ export async function getAllPosts() {
     date: post.date || null,
     author: post.author || null,
     content: post.content || '',
+    image: post.image || null,
   }));
 }
 
