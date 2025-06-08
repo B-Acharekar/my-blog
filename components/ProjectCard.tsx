@@ -29,7 +29,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.link && project.link.trim() !== '' ? (
             <Link
               href={project.link}
-              target="_blank"
+              target="#"
               className="text-gray-400 hover:text-lime-400 transition"
               title="Live Site"
               onClick={(e) => e.stopPropagation()}
@@ -43,7 +43,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.repo && (
             <Link
               href={project.repo}
-              target="_blank"
+              target="#"
               className="text-gray-400 hover:text-lime-400 transition"
               title="Source Code"
               onClick={(e) => e.stopPropagation()}
@@ -70,7 +70,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   )
 
   return primaryLink ? (
-    <Link href={primaryLink} target="_blank">
+    <Link href={primaryLink} target="#">
       {CardContent}
     </Link>
   ) : (
