@@ -25,7 +25,7 @@ export default function About() {
           {/* Profile Picture */}
           <div className="flex-shrink-0">
             <img
-              src="/img/pfp.jpg"
+              src="https://images.unsplash.com/photo-1618401479427-c8ef9465fbe1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z2l0aHVifGVufDB8fDB8fHww"
               alt="Bhushan Acharekar"
               className="rounded-full w-48 h-48 object-cover border-4 border-lime-500 shadow-lg"
             />
