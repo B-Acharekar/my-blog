@@ -118,7 +118,7 @@ export default function SignIn() {
                         <p className="text-sm text-gray-300">
                             Are you{' '}
                             <Link
-                                href="/admin/new-post"
+                                href="/admin/dashboard"
                                 className="font-semibold text-lime-500 transition duration-200 hover:text-lime-800 hover:underline hover:underline-offset-4"
                             >
                                 Admin
