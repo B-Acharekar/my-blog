@@ -5,9 +5,9 @@ import bcrypt from 'bcryptjs';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const { email, password,name } = await req.json();
 
-    if (!email || !password) {
+    if (!email || !password || !name) {
       return NextResponse.json({ message: 'Email and password are required' }, { status: 400 });
     }
 
@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
 
     // Insert user into DB
     const result = await users.insertOne({
+      name,
       email,
       password: hashedPassword,
       createdAt: new Date(),

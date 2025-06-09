@@ -1,21 +1,39 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { FiUser } from 'react-icons/fi';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check for token or login flag (adjust this to your auth method)
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
   }, []);
 
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    }
+    if (dropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownOpen]);
+
   const handleLogout = () => {
-    // Clear token or auth info
     localStorage.removeItem('token');
-    // Optionally reload or redirect
     window.location.href = '/';
   };
 
@@ -39,7 +57,7 @@ const Header = () => {
           <Link href="/contact" className="hover:text-lime-400 transition-colors">Contact</Link>
         </nav>
 
-        <div>
+        <div className="relative" ref={dropdownRef}>
           {!isLoggedIn ? (
             <>
               <Link
@@ -58,11 +76,35 @@ const Header = () => {
           ) : (
             <>
               <button
-                onClick={handleLogout}
-                className="text-lime-400 font-semibold hover:text-lime-900 hover:text-lg hover:underline-offset-2 transition-colors"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="text-lime-400 hover:text-lime-900 transition-colors focus:outline-none"
+                aria-haspopup="true"
+                aria-expanded={dropdownOpen}
+                title="User menu"
               >
-                Logout
+                <FiUser size={28} />
               </button>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50">
+                  {/* Example Profile link */}
+                  {/* <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-lime-400 hover:text-white transition-colors"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Profile
+                  </Link> */}
+
+                  {/* Logout button */}
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-lime-400 hover:text-white transition-colors"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>

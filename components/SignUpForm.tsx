@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FiArrowLeft } from "react-icons/fi";
 
-export default function signUpForm() {
+export default function SignUpForm() {
+    const router = useRouter();
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,7 +28,7 @@ export default function signUpForm() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ name, email, password }),
             });
 
             const data = await res.json();
@@ -34,7 +37,7 @@ export default function signUpForm() {
                 alert(data.message || 'Signup failed');
             } else {
                 alert('Signup successful! You can now sign in.');
-                // Optionally redirect to login
+                router.push('/sign-in')
             }
         } catch (error) {
             alert('An error occurred. Please try again.');
@@ -58,6 +61,22 @@ export default function signUpForm() {
                 <p className="text-sm text-center text-gray-300">Welcome! Please fill in the form to register.</p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-200">
+                            Full Name <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            placeholder="John Doe"
+                            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-lime-400 focus:ring-lime-400 focus:outline-none focus:ring-1"
+                        />
+                    </div>
+
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-200">
                             Email <span className="text-red-500">*</span>
