@@ -1,22 +1,26 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FiArrowLeft } from "react-icons/fi";
 
-export default function SignIn() {
-    const router = useRouter();
+export default function signUpForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
 
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        setLoading(true);
         try {
-            const res = await fetch('/api/sign-in', {
+            const res = await fetch('/api/sign-up', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,12 +31,10 @@ export default function SignIn() {
             const data = await res.json();
 
             if (!res.ok) {
-                alert(data.message || 'Login failed');
+                alert(data.message || 'Signup failed');
             } else {
-                alert('Login successful!');
-                // Save token in localStorage
-                localStorage.setItem('token', data.token);
-                router.push('/');
+                alert('Signup successful! You can now sign in.');
+                // Optionally redirect to login
             }
         } catch (error) {
             alert('An error occurred. Please try again.');
@@ -52,8 +54,9 @@ export default function SignIn() {
             </div>
 
             <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-800 p-8 shadow-lg">
-                <h1 className="text-2xl font-bold text-center text-gray-100">Sign in</h1>
-                <p className="text-sm text-center text-gray-300">Welcome user, please sign in to continue</p>
+                <h1 className="text-2xl font-bold text-center text-gray-100">Create Account</h1>
+                <p className="text-sm text-center text-gray-300">Welcome! Please fill in the form to register.</p>
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-200">
@@ -70,6 +73,7 @@ export default function SignIn() {
                             className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-lime-400 focus:ring-lime-400 focus:outline-none focus:ring-1"
                         />
                     </div>
+
                     <div>
                         <label htmlFor="password" className="block text-sm font-medium text-gray-200">
                             Password <span className="text-red-500">*</span>
@@ -86,44 +90,39 @@ export default function SignIn() {
                         />
                     </div>
 
-                    <div className="text-right text-sm">
-                        <Link
-                            href="/forgot-password"
-                            className="text-lime-400 hover:text-lime-200 hover:underline transition"
-                        >
-                            Forgot password?
-                        </Link>
+                    <div>
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-200">
+                            Confirm Password <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            placeholder="*****"
+                            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-lime-400 focus:ring-lime-400 focus:outline-none focus:ring-1"
+                        />
                     </div>
+
                     <button
                         type="submit"
                         className="w-full rounded-md bg-lime-500 px-4 py-2 text-white font-medium shadow transition duration-200 hover:bg-lime-700 hover:shadow-md disabled:opacity-50"
                         disabled={loading}
                     >
-                        {loading ? 'Signing in...' : 'Sign in'}
+                        {loading ? 'Registering...' : 'Register'}
                     </button>
 
                     <div className="mt-4 text-center">
                         <p className="text-sm text-gray-300">
-                            Don&apos;t have an account?{' '}
+                            Already have an account?{' '}
                             <Link
-                                href="/sign-up"
+                                href="/sign-in"
                                 className="font-semibold text-lime-400 hover:text-lime-200 hover:underline hover:underline-offset-4"
                             >
-                                signup
+                                Sign in
                             </Link>
-                        </p>
-                    </div>
-
-                    <div className="mt-4 text-center">
-                        <p className="text-sm text-gray-300">
-                            Are you{' '}
-                            <Link
-                                href="/admin/dashboard"
-                                className="font-semibold text-lime-500 transition duration-200 hover:text-lime-800 hover:underline hover:underline-offset-4"
-                            >
-                                Admin
-                            </Link>
-                            ?
                         </p>
                     </div>
                 </form>
